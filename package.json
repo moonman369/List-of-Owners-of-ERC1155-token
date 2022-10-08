@@ -4,7 +4,7 @@
   "description": "This projects demonstrates the necessary scripts required to list the entire owner history of an ERC1155 or ERC721 token. This is done mainly by listening to blockchain events.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npx hardhat test",
     "deploy": "npx hardhat run --network localhost scripts/deploy.js",
     "list": "npx hardhat run --network localhost scripts/list-of-owners/list-owners.js",
     "update": "npx hardhat run --network localhost scripts/list-of-owners/update-db.js",
