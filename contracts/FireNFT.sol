@@ -16,10 +16,11 @@ contract FireNFT is ERC1155, Ownable {
 
     //Functions: Mint
 
-    function mintCollection (address _to, uint256 _amount) external virtual payable {
+    function mintCollection (address _to, uint256 _amount) external virtual payable returns (uint256) {
         tokenCollection++;
-        uint newCollectionId = tokenCollection;
+        uint256 newCollectionId = tokenCollection;
         _mint (_to, newCollectionId, _amount, "");
+        return newCollectionId;
     }
 
     function mintMultipleCollections (address _to, uint256 _collectionCount, uint256[] memory _amounts) external virtual payable {

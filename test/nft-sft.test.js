@@ -33,5 +33,57 @@ describe("I. Minting token on NFT1 contract", () => {
     const tokenId = await nft1.callStatic.mintItem(addrs[0].address);
     await expect(nft1.connect(addrs[0]).mintItem(addrs[0].address)).to
       .eventually.be.fulfilled;
+    expect(await nft1.ownerOf(tokenId)).to.equal(addrs[0].address);
   });
+
+  it("2. Users should be able to mint tokens to any other address", async () => {
+    const tokenId = await nft1.callStatic.mintItem(addrs[6].address);
+    await expect(nft1.connect(addrs[0]).mintItem(addrs[6].address)).to
+      .eventually.be.fulfilled;
+    expect(await nft1.ownerOf(tokenId)).to.equal(addrs[6].address);
+  });
+
+  it("3. Users should not be able to mint tokens to null address", async () => {
+    await expect(nft1.connect(addrs[0]).mintItem(NULL_ADDRESS)).to.eventually.be
+      .rejected;
+  });
+});
+
+describe("II. Minting token on NFT2 contract", () => {
+  it("1. Users should be able to mint tokens to own address", async () => {
+    const tokenId = await nft2.callStatic.mintItem(addrs[0].address);
+    await expect(nft2.connect(addrs[0]).mintItem(addrs[0].address)).to
+      .eventually.be.fulfilled;
+    expect(await nft2.ownerOf(tokenId)).to.equal(addrs[0].address);
+  });
+
+  it("2. Users should be able to mint tokens to any other address", async () => {
+    const tokenId = await nft2.callStatic.mintItem(addrs[6].address);
+    await expect(nft2.connect(addrs[0]).mintItem(addrs[6].address)).to
+      .eventually.be.fulfilled;
+    expect(await nft2.ownerOf(tokenId)).to.equal(addrs[6].address);
+  });
+
+  it("3. Users should not be able to mint tokens to null address", async () => {
+    await expect(nft2.connect(addrs[0]).mintItem(NULL_ADDRESS)).to.eventually.be
+      .rejected;
+  });
+});
+
+describe("III. Minting and batchminting on FireNFT contract", () => {
+  it("1. Users should be able to mint collections with desired supply", async () => {
+    const collectionId = await fireNft.callStatic.mintCollection(
+      addrs[0].address,
+      100
+    );
+    await expect(
+      fireNft.connect(addrs[0]).mintCollection(addrs[0].address, 100)
+    ).to.eventually.be.fulfilled;
+
+    expect(await fireNft.balanceOf(addrs[0].address, collectionId)).to.equal(
+      100
+    );
+  });
+
+  it("2. Users should be able to mint multiple collections at once");
 });
