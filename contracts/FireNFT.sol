@@ -23,7 +23,7 @@ contract FireNFT is ERC1155, Ownable {
         return newCollectionId;
     }
 
-    function mintMultipleCollections (address _to, uint256 _collectionCount, uint256[] memory _amounts) external virtual payable {
+    function mintMultipleCollections (address _to, uint256 _collectionCount, uint256[] memory _amounts) external virtual payable returns (uint256[] memory) {
         require (_collectionCount == _amounts.length, "Invalid array length");
         uint256[] memory tokenCollectionIds = new uint256[] (_collectionCount);
         for (uint256 i = 0; i < _collectionCount; i++) {
@@ -31,6 +31,7 @@ contract FireNFT is ERC1155, Ownable {
             tokenCollectionIds[i] = tokenCollection;
         }
         _mintBatch (_to, tokenCollectionIds, _amounts, "");
+        return tokenCollectionIds;
     }
 
 

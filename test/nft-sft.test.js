@@ -85,5 +85,34 @@ describe("III. Minting and batchminting on FireNFT contract", () => {
     );
   });
 
-  it("2. Users should be able to mint multiple collections at once");
+  it("2. Users should be able to mint multiple collections at once", async () => {
+    const mintToAddress = addrs[3].address;
+    const collectionCount = 6;
+    const mintAmounts = [1, 100, 10 ** 12, 5, 3424, 69];
+    const batchMintArgs = [mintToAddress, collectionCount, mintAmounts];
+
+    const collectionIds = await fireNft.callStatic.mintMultipleCollections(
+      ...batchMintArgs
+    );
+
+    await expect(
+      fireNft.connect(addrs[0]).mintMultipleCollections(...batchMintArgs)
+    ).to.eventually.be.fulfilled;
+
+    const addresses = [
+      mintToAddress,
+      mintToAddress,
+      mintToAddress,
+      mintToAddress,
+      mintToAddress,
+      mintToAddress,
+    ];
+
+    const balances = await fireNft.balanceOfBatch(addresses, collectionIds);
+    let counter = 0;
+
+    for (let balance of balances) {
+      expect(balance).to.equal(mintAmounts[counter++]);
+    }
+  });
 });
